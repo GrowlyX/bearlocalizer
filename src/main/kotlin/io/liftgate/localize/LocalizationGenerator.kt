@@ -1,5 +1,9 @@
 package io.liftgate.localize
 
+import io.liftgate.localize.annotate.Component
+import io.liftgate.localize.annotate.DefaultsTo
+import io.liftgate.localize.annotate.Describe
+import io.liftgate.localize.annotate.Id
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
@@ -9,7 +13,8 @@ import kotlin.reflect.KClass
  * @since 7/25/2023
  */
 class LocalizationGenerator(
-    private val clazz: KClass<*>
+    private val clazz: KClass<*>,
+    private val resourceBucket: ResourceBucket
 ) : InvocationHandler
 {
     private val mappings =
@@ -42,7 +47,9 @@ class LocalizationGenerator(
                         }
                 )
 
-                mappings[it] =
+                mappings[it] = {
+
+                }
             }
     }
 
@@ -52,6 +59,6 @@ class LocalizationGenerator(
         args: Array<out Any>
     ): Any
     {
-
+        return Unit
     }
 }

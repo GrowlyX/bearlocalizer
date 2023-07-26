@@ -1,4 +1,4 @@
-package io.liftgate.localize
+package io.liftgate.localize.annotate
 
 /**
  * @author GrowlyX

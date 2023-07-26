@@ -1,9 +1,9 @@
 package io.liftgate.localize.model.impl.testing
 
-import io.liftgate.localize.Component
-import io.liftgate.localize.DefaultsTo
-import io.liftgate.localize.Describe
-import io.liftgate.localize.Id
+import io.liftgate.localize.annotate.Component
+import io.liftgate.localize.annotate.DefaultsTo
+import io.liftgate.localize.annotate.Describe
+import io.liftgate.localize.annotate.Id
 import io.liftgate.localize.identity.Identity
 
 /**
