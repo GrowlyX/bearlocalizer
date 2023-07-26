@@ -12,4 +12,5 @@ interface Identity
     fun username(): String
 
     fun sendMessage(message: String)
+    fun player(): Any
 }

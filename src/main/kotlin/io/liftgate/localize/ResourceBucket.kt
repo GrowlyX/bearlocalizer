@@ -6,6 +6,9 @@ package io.liftgate.localize
  */
 interface ResourceBucket
 {
+    fun load()
+    fun isEmpty(): Boolean
+
     fun storeGenerations(descriptors: List<MethodDescriptor>)
-    fun template(id: String): List<String>
+    fun template(id: String): List<String>?
 }

@@ -4,6 +4,8 @@ import io.liftgate.localize.annotate.Component
 import io.liftgate.localize.annotate.DefaultsTo
 import io.liftgate.localize.annotate.Describe
 import io.liftgate.localize.annotate.Id
+import io.liftgate.localize.identity.Identity
+import io.liftgate.localize.placeholder.PlaceholderService
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
@@ -13,12 +15,14 @@ import kotlin.reflect.KClass
  * @since 7/25/2023
  */
 class LocalizationGenerator(
-    private val clazz: KClass<*>,
-    private val resourceBucket: ResourceBucket
+    clazz: KClass<*>
 ) : InvocationHandler
 {
+    lateinit var resourceBucket: ResourceBucket
     private val mappings =
-        mutableMapOf<Method, (Array<out Any>) -> Unit>()
+        mutableMapOf<Method, (Array<out Any>) -> List<String>>()
+
+    val descriptors = mutableMapOf<Method, MethodDescriptor>()
 
     init
     {
@@ -40,15 +44,68 @@ class LocalizationGenerator(
                     replacements = it.parameters
                         .map { parameter ->
                             ParameterDescriptor(
+                                id = parameter.name,
+                                parameter = parameter,
                                 component = parameter
                                     .getAnnotation(Component::class.java)
                                     ?.value
                             )
-                        }
+                        },
                 )
 
-                mappings[it] = {
+                descriptors[it] = descriptor
 
+                mappings[it] = { args ->
+                    var template = resourceBucket
+                        .template(descriptor.id)
+                        ?: descriptor.defaultValue
+
+                    for ((index, replacement) in descriptor.replacements.withIndex())
+                    {
+                        val replacementObject = args
+                            .getOrNull(index)
+                            ?: continue
+
+                        var replacementVal = replacementObject.toString()
+
+                        if (replacement.component != null)
+                        {
+                            MappingRegistry
+                                .findComponentMatching(replacement.parameter.type.kotlin, replacement.component)
+                                ?.apply {
+                                    replacementVal = mapToValue(replacementObject)
+                                }
+                        } else
+                        {
+                            MappingRegistry
+                                .defaultMappings[replacement.parameter.type.kotlin]
+                                ?.apply {
+                                    replacementVal = mapToValue(replacementObject)
+                                }
+                        }
+
+                        template = template
+                            .map { msg ->
+                                msg.replace(
+                                    "%${replacement.id}%",
+                                    replacementVal
+                                )
+                            }
+                            .toMutableList()
+                    }
+
+                    val selfIdentity = if (descriptor.identityIndex != -1)
+                        args[descriptor.identityIndex] as Identity else null
+
+                    template.map { message ->
+                        PlaceholderService
+                            .processor()
+                            ?.transform(
+                                selfIdentity,
+                                message
+                            )
+                            ?: message
+                    }
                 }
             }
     }
@@ -57,8 +114,9 @@ class LocalizationGenerator(
         proxy: Any,
         method: Method,
         args: Array<out Any>
-    ): Any
-    {
-        return Unit
-    }
+    ) = mappings[method]
+        ?.invoke(
+            args
+        )
+        ?: listOf()
 }
