@@ -21,6 +21,12 @@ import kotlin.reflect.KClass
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LocalizeTest
 {
+    @Test
+    fun localizeUsingYamlBucket() = buildTestUsingBucket { YamlResourceBucket(it) }
+
+    @Test
+    fun localizeUsingPropertiesBucket() = buildTestUsingBucket { PropertiesResourceBucket(it) }
+
     private val noOp = object : Identity
     {
         override fun identifier() = UUID.randomUUID()
@@ -59,13 +65,7 @@ class LocalizeTest
         Localizer.registry.clear()
     }
 
-    @Test
-    fun localizeUsingYamlBucket() = buildTestUsingBucket { YamlResourceBucket(it) }
-
-    @Test
-    fun localizeUsingPropertiesBucket() = buildTestUsingBucket { PropertiesResourceBucket(it) }
-
-    fun buildTestUsingBucket(bucketCreator: (KClass<*>) -> ResourceBucket)
+    private fun buildTestUsingBucket(bucketCreator: (KClass<*>) -> ResourceBucket)
     {
         Localizer.bucketBuilder = bucketCreator
 

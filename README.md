@@ -55,7 +55,7 @@ val coreLang = Localizer.build<CoreLang>()
 println(coreLang.playerJoins(identity))
 println(coreLang.playerLeaves(identity, "destroyed"))
 ```
-*Generate configs automatically!*
+*Generate configs automatically with either props or yaml!*
 ```properties
 # Generated on Wed Jul 26 13:12:06 EDT 2023 by BearLocalizer
 # Maps to class io.liftgate.localize.test.TestLang.properties
@@ -69,3 +69,17 @@ events.player-login=%player% joined the game!
 # %player% left the game for %reason%!
 events.player-logout=%player% left the game for %reason%!
 ```
+```yaml
+# Generated on Wed Jul 26 14:56:49 EDT 2023 by BearLocalizer
+# Maps to class io.liftgate.localize.test.TestLang
+---
+# Broadcasts this message to the server when a player logs in!
+"player-login":
+  - "%player% joined the game!"
+# Broadcasts this message to the server when a player logs out!
+"player-logout":
+  - "%player% left the game for %reason%!"
+```
+
+## Resource buckets:
+ - **Yaml**: Requires `com.amihaiemil.web:eo-yaml:7.0.8` to be available at runtime. 
