@@ -3,7 +3,6 @@ package io.liftgate.localize.test
 import io.liftgate.localize.Localizer
 import io.liftgate.localize.identity.Identity
 import io.liftgate.localize.identity.IdentityImpl
-import io.liftgate.localize.model.impl.testing.CoreLang
 import io.liftgate.localize.placeholder.PlaceholderProcessor
 import io.liftgate.localize.properties.PropertiesResourceBucket
 import org.junit.jupiter.api.Test
@@ -46,8 +45,8 @@ class LocalizeTest
                 PropertiesResourceBucket(it)
             }
 
-        val coreLang = Localizer.build<CoreLang>()
-        println(coreLang.playerJoins(noOp))
-        println(coreLang.playerLeaves(noOp, "destroyed"))
+        val testLang = Localizer.build<TestLang>()
+        println(testLang.playerJoins(noOp))
+        println(testLang.playerLeaves(noOp, "destroyed"))
     }
 }
