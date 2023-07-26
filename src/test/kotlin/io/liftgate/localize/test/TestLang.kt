@@ -9,8 +9,7 @@ import io.liftgate.localize.identity.Identity
  */
 interface TestLang
 {
-    @Colored
-    @Id("player_login")
+    @Id("events.player-login")
     @Describe("Broadcasts this message to the server when a player logs in!")
     @DefaultsTo("%player% joined the game!")
     fun playerJoins(
@@ -19,12 +18,12 @@ interface TestLang
         player: Identity
     ): List<String>
 
+    // BearLocalizer will generate ids if none is given
     @Colored
     @Describe("Broadcasts this message to the server when a player logs out!")
-    @DefaultsTo("%player% left the game for %reason%!")
+    @DefaultsTo("&6%player%&e left the game for &a%reason%&e!")
     fun playerLeaves(
-        @Self
-        @Component("username")
+        @Self // BearLocalizer defaults to the username if no component is provided
         player: Identity,
         reason: String
     ): List<String>

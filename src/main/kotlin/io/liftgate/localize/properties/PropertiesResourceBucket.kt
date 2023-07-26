@@ -47,7 +47,7 @@ class PropertiesResourceBucket(
         val generated = mutableListOf(
             "# Generated on ${Date()} by BearLocalizer",
             "# Maps to class ${type.java.name}",
-            "# ----"
+            ""
         )
 
         descriptors.forEach {
