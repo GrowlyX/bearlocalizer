@@ -1,7 +1,5 @@
 package io.liftgate.localize.placeholder
 
-import io.liftgate.localize.identity.IdentityImpl
-
 /**
  * @author GrowlyX
  * @since 7/26/2023

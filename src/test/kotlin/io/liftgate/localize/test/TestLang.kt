@@ -9,6 +9,7 @@ import io.liftgate.localize.identity.Identity
  */
 interface TestLang
 {
+    @Colored
     @Id("player_login")
     @Describe("Broadcasts this message to the server when a player logs in!")
     @DefaultsTo("%player% joined the game!")
@@ -18,6 +19,7 @@ interface TestLang
         player: Identity
     ): List<String>
 
+    @Colored
     @Describe("Broadcasts this message to the server when a player logs out!")
     @DefaultsTo("%player% left the game for %reason%!")
     fun playerLeaves(

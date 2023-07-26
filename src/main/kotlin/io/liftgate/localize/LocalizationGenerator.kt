@@ -1,9 +1,6 @@
 package io.liftgate.localize
 
-import io.liftgate.localize.annotate.Component
-import io.liftgate.localize.annotate.DefaultsTo
-import io.liftgate.localize.annotate.Describe
-import io.liftgate.localize.annotate.Id
+import io.liftgate.localize.annotate.*
 import io.liftgate.localize.identity.Identity
 import io.liftgate.localize.placeholder.PlaceholderService
 import java.lang.reflect.InvocationHandler
@@ -33,6 +30,8 @@ class LocalizationGenerator(
                         .getDeclaredAnnotation(Id::class.java)
                         ?.value
                         ?: LocalizerInternals.generateSnakeCaseID(it),
+                    colorize = it
+                        .isAnnotationPresent(Colored::class.java),
                     description = it
                         .getDeclaredAnnotation(Describe::class.java)
                         ?.value?.toList()
@@ -50,7 +49,7 @@ class LocalizationGenerator(
                                     .getAnnotation(Component::class.java)
                                     ?.value
                             )
-                        },
+                        }
                 )
 
                 descriptors[it] = descriptor
@@ -97,15 +96,24 @@ class LocalizationGenerator(
                     val selfIdentity = if (descriptor.identityIndex != -1)
                         args[descriptor.identityIndex] as Identity else null
 
-                    template.map { message ->
-                        PlaceholderService
-                            .processor()
-                            ?.transform(
-                                selfIdentity,
-                                message
-                            )
-                            ?: message
-                    }
+                    template
+                        .map { message ->
+                            val parsed = PlaceholderService
+                                .processor()
+                                ?.transform(
+                                    selfIdentity,
+                                    message
+                                )
+                                ?: message
+
+                            if (descriptor.colorize)
+                            {
+                                parsed.replace("&", "§")
+                            } else
+                            {
+                                parsed
+                            }
+                        }
                 }
             }
     }
