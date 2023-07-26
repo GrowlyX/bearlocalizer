@@ -16,5 +16,15 @@ interface CoreLang
         @Self
         @Component("username")
         player: Identity
-    ): String
+    ): List<String>
+
+    @Id("events.player-logout")
+    @Describe("Broadcasts this message to the server when a player logs out!")
+    @DefaultsTo("%player% left the game for %reason%!")
+    fun playerLeaves(
+        @Self
+        @Component("username")
+        player: Identity,
+        reason: String
+    ): List<String>
 }

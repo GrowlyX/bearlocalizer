@@ -17,11 +17,15 @@ class PropertiesResourceBucket(
 {
     private val properties = Properties()
     private val mappings = mutableMapOf<String, List<String>>()
+    private val file = File(type.java.name)
 
     override fun load()
     {
+        if (!file.exists())
+            return
+
         properties.load(
-            File(type.java.name).inputStream()
+            file.inputStream()
         )
 
         properties.stringPropertyNames()
@@ -55,23 +59,24 @@ class PropertiesResourceBucket(
 
                 it.defaultValue
                     .forEach { def ->
-                        generated += def
+                        generated += "# $def"
                     }
             }
 
             generated += "${it.id}=${it.defaultValue.first()}"
         }
 
-        File(type.java.name)
-            .writeText(
-                generated.joinToString("\n")
-            )
+        if (!file.exists())
+        {
+            file.createNewFile()
+        }
+
+        file.writeText(
+            generated.joinToString("\n")
+        )
 
         load()
     }
 
-    override fun template(id: String): List<String>?
-    {
-        TODO("Not yet implemented")
-    }
+    override fun template(id: String) = mappings[id]
 }
