@@ -12,12 +12,12 @@ import kotlin.reflect.KClass
  * @since 7/26/2023
  */
 class PropertiesResourceBucket(
-    private val type: KClass<*>
+    private val type: KClass<*>,
+    private val file: File = File(type.java.name)
 ) : ResourceBucket
 {
     private val properties = Properties()
     private val mappings = mutableMapOf<String, List<String>>()
-    private val file = File(type.java.name)
 
     override fun load()
     {
