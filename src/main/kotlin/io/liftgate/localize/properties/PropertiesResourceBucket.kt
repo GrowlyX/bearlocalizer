@@ -1,5 +1,6 @@
 package io.liftgate.localize.properties
 
+import io.liftgate.localize.LocalizerInternals
 import io.liftgate.localize.MethodDescriptor
 import io.liftgate.localize.ResourceBucket
 import java.io.File
@@ -13,7 +14,9 @@ import kotlin.reflect.KClass
  */
 class PropertiesResourceBucket(
     private val type: KClass<*>,
-    private val file: File = File("${type.java.name}.properties")
+    private val file: File = File("${
+        LocalizerInternals.generateFileName(type)
+    }.properties")
 ) : ResourceBucket
 {
     private val properties = Properties()

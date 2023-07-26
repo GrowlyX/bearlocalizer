@@ -2,11 +2,11 @@ package io.liftgate.localize.properties
 
 import com.amihaiemil.eoyaml.Yaml
 import com.amihaiemil.eoyaml.YamlMapping
-import com.amihaiemil.eoyaml.YamlNode
+import io.liftgate.localize.LocalizerInternals
 import io.liftgate.localize.MethodDescriptor
 import io.liftgate.localize.ResourceBucket
 import java.io.File
-import java.util.Date
+import java.util.*
 import kotlin.reflect.KClass
 
 /**
@@ -15,7 +15,9 @@ import kotlin.reflect.KClass
  */
 class YamlResourceBucket(
     private val type: KClass<*>,
-    private val file: File = File("${type.java.name}.yaml")
+    private val file: File = File("${
+        LocalizerInternals.generateFileName(type)
+    }.yaml")
 ) : ResourceBucket
 {
     private lateinit var mapping: YamlMapping
