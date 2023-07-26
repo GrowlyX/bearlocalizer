@@ -17,6 +17,9 @@ repositories {
 dependencies {
     compileOnly(kotlin("stdlib"))
     testImplementation(kotlin("test"))
+
+    compileOnly("com.amihaiemil.web:eo-yaml:7.0.8")
+    testImplementation("com.amihaiemil.web:eo-yaml:7.0.8")
 }
 
 tasks.test {

@@ -15,7 +15,7 @@ object Localizer
     val registry = mutableMapOf<KClass<*>, Any>()
     lateinit var bucketBuilder: (KClass<*>) -> ResourceBucket
 
-    inline fun <reified T> build(): T
+    inline fun <reified T> of(): T
     {
         if (registry[T::class] != null)
         {
