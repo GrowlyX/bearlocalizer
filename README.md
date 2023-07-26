@@ -1,7 +1,8 @@
 # Localizer
 A straightforward, fast, and extensible localization library for Kotlin on JVM.
+*(inspired by Kyori's moonshine library. localizer is less complicated to setup and use compared to moonshine)*
 
-## Features:
+## Features
 - Custom component mappers for classes.
 - Config file generation tools.
 - Support for custom placeholder replacement implementations.
@@ -12,7 +13,7 @@ A straightforward, fast, and extensible localization library for Kotlin on JVM.
 ```kotlin
 interface CoreLang
 {
-    @Id("events.player-login")
+    @Id("player_login")
     @Describe("Broadcasts this message to the server when a player logs in!")
     @DefaultsTo("%player% joined the game!")
     fun playerJoins(
@@ -81,5 +82,5 @@ events.player-logout=%player% left the game for %reason%!
   - "%player% left the game for %reason%!"
 ```
 
-## Resource buckets:
+## Resource buckets
  - **Yaml**: Requires `com.amihaiemil.web:eo-yaml:7.0.8` to be available at runtime. 

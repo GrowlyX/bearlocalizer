@@ -9,7 +9,7 @@ import io.liftgate.localize.identity.Identity
  */
 interface TestLang
 {
-    @Id("events.player-login")
+    @Id("player_login")
     @Describe("Broadcasts this message to the server when a player logs in!")
     @DefaultsTo("%player% joined the game!")
     fun playerJoins(
