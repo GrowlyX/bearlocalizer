@@ -18,7 +18,6 @@ interface TestLang
         player: Identity
     ): List<String>
 
-    @Id("player_logout")
     @Describe("Broadcasts this message to the server when a player logs out!")
     @DefaultsTo("%player% left the game for %reason%!")
     fun playerLeaves(
