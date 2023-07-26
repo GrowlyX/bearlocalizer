@@ -5,8 +5,8 @@ import io.liftgate.localize.ResourceBucket
 import io.liftgate.localize.identity.Identity
 import io.liftgate.localize.identity.IdentityImpl
 import io.liftgate.localize.placeholder.PlaceholderProcessor
-import io.liftgate.localize.properties.PropertiesResourceBucket
-import io.liftgate.localize.properties.YamlResourceBucket
+import io.liftgate.localize.buckets.PropertiesResourceBucket
+import io.liftgate.localize.buckets.YamlResourceBucket
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

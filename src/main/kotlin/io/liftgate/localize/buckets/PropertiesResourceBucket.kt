@@ -1,4 +1,4 @@
-package io.liftgate.localize.properties
+package io.liftgate.localize.buckets
 
 import io.liftgate.localize.LocalizerInternals
 import io.liftgate.localize.MethodDescriptor

@@ -1,4 +1,4 @@
-package io.liftgate.localize.properties
+package io.liftgate.localize.buckets
 
 import com.amihaiemil.eoyaml.Yaml
 import com.amihaiemil.eoyaml.YamlMapping
