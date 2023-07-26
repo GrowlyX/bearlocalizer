@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
  */
 class PropertiesResourceBucket(
     private val type: KClass<*>,
-    private val file: File = File(type.java.name)
+    private val file: File = File("${type.java.name}.properties")
 ) : ResourceBucket
 {
     private val properties = Properties()

@@ -58,7 +58,7 @@ println(coreLang.playerLeaves(identity, "destroyed"))
 *Generate configs automatically!*
 ```properties
 # Generated on Wed Jul 26 13:12:06 EDT 2023 by BearLocalizer
-# Maps to class io.liftgate.localize.test.TestLang
+# Maps to class io.liftgate.localize.test.TestLang.properties
 # ----
 # Broadcasts this message to the server when a player logs in!
 # Default value:
