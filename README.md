@@ -55,3 +55,17 @@ val coreLang = Localizer.build<CoreLang>()
 println(coreLang.playerJoins(identity))
 println(coreLang.playerLeaves(identity, "destroyed"))
 ```
+*Generate configs automatically!*
+```properties
+# Generated on Wed Jul 26 13:12:06 EDT 2023 by BearLocalizer
+# Maps to class io.liftgate.localize.test.TestLang
+# ----
+# Broadcasts this message to the server when a player logs in!
+# Default value:
+# %player% joined the game!
+events.player-login=%player% joined the game!
+# Broadcasts this message to the server when a player logs out!
+# Default value:
+# %player% left the game for %reason%!
+events.player-logout=%player% left the game for %reason%!
+```
