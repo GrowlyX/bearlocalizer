@@ -15,16 +15,18 @@ object Localizer
     val registry = mutableMapOf<KClass<*>, Any>()
     lateinit var bucketBuilder: (KClass<*>) -> ResourceBucket
 
-    inline fun <reified T> of(): T
+    inline fun <reified T : Any> of() = of(T::class)
+
+    fun <T : Any> of(kClass: KClass<T>): T
     {
-        if (registry[T::class] != null)
+        if (registry[kClass] != null)
         {
-            return registry[T::class] as T
+            return registry[kClass] as T
         }
 
-        val generator = LocalizationGenerator(T::class)
+        val generator = LocalizationGenerator(kClass)
 
-        val resourceBucket = bucketBuilder(T::class)
+        val resourceBucket = bucketBuilder(kClass)
         resourceBucket.load()
 
         if (resourceBucket.isEmpty())
@@ -35,14 +37,14 @@ object Localizer
         }
 
         return buildProxyInstance(
-            T::class, generator
+            kClass, generator
         ).apply {
             generator.resourceBucket = resourceBucket
-            registry[T::class] = this
+            registry[kClass] = this
         } as T
     }
 
-    fun buildProxyInstance(clazz: KClass<*>, invocationHandler: InvocationHandler) = Proxy
+    private fun buildProxyInstance(clazz: KClass<*>, invocationHandler: InvocationHandler) = Proxy
         .newProxyInstance(
             clazz.java.classLoader,
             arrayOf(clazz.java),
