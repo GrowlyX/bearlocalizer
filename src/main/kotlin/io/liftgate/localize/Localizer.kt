@@ -15,9 +15,16 @@ object Localizer
     val registry = mutableMapOf<KClass<*>, Any>()
     lateinit var bucketBuilder: (KClass<*>) -> ResourceBucket
 
-    inline fun <reified T : Any> of() = of(T::class)
+    @JvmOverloads
+    inline fun <reified T : Any> of(
+        noinline builder: (KClass<*>) -> ResourceBucket = bucketBuilder
+    ) = of(T::class, builder)
 
-    fun <T : Any> of(kClass: KClass<T>): T
+    @JvmOverloads
+    fun <T : Any> of(
+        kClass: KClass<T>,
+        builder: (KClass<*>) -> ResourceBucket = bucketBuilder
+    ): T
     {
         if (registry[kClass] != null)
         {
@@ -26,7 +33,7 @@ object Localizer
 
         val generator = LocalizationGenerator(kClass)
 
-        val resourceBucket = bucketBuilder(kClass)
+        val resourceBucket = builder(kClass)
         resourceBucket.load()
 
         if (resourceBucket.isEmpty())
