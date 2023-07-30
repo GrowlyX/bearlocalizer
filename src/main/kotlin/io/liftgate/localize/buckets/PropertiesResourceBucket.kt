@@ -3,6 +3,7 @@ package io.liftgate.localize.buckets
 import io.liftgate.localize.LocalizerInternals
 import io.liftgate.localize.MethodDescriptor
 import io.liftgate.localize.ResourceBucket
+import io.liftgate.localize.ResourceBucket.Companion.EXPLICIT_NULL
 import java.io.File
 import java.util.Date
 import java.util.Properties
@@ -81,5 +82,5 @@ class PropertiesResourceBucket(
         load()
     }
 
-    override fun template(id: String) = mappings[id]
+    override fun template(id: String) = mappings[id] ?: EXPLICIT_NULL
 }

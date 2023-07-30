@@ -5,6 +5,7 @@ import com.amihaiemil.eoyaml.YamlMapping
 import io.liftgate.localize.LocalizerInternals
 import io.liftgate.localize.MethodDescriptor
 import io.liftgate.localize.ResourceBucket
+import io.liftgate.localize.ResourceBucket.Companion.EXPLICIT_NULL
 import java.io.File
 import java.util.*
 import kotlin.reflect.KClass
@@ -47,8 +48,17 @@ class YamlResourceBucket(
                 val sequence = Yaml
                     .createMutableYamlSequenceBuilder()
 
-                it.defaultValue.forEach { value ->
-                    sequence.add(value)
+                val template = template(it.id)
+                if (template.isEmpty())
+                {
+                    it.defaultValue.forEach { value ->
+                        sequence.add(value)
+                    }
+                } else
+                {
+                    template.forEach { value ->
+                        sequence.add(value)
+                    }
                 }
 
                 builder.add(
@@ -80,6 +90,7 @@ class YamlResourceBucket(
     {
         val sequence = mapping
             .yamlSequence(id)
+            ?: return EXPLICIT_NULL
 
         return sequence
             .mapIndexed { index, _ ->

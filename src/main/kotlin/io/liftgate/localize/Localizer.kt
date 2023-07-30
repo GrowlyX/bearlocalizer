@@ -36,11 +36,14 @@ object Localizer
         val resourceBucket = builder(kClass)
         resourceBucket.load()
 
-        if (resourceBucket.isEmpty())
+        val descriptors = generator.descriptors.values.toList()
+
+        if (
+            resourceBucket.isEmpty() ||
+            resourceBucket.requiresConfigValidations(descriptors)
+        )
         {
-            resourceBucket.storeGenerations(
-                generator.descriptors.values.toList()
-            )
+            resourceBucket.storeGenerations(descriptors)
         }
 
         return buildProxyInstance(
