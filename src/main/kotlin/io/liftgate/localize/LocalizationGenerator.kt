@@ -122,9 +122,19 @@ class LocalizationGenerator(
         proxy: Any,
         method: Method,
         args: Array<out Any>
-    ) = mappings[method]
-        ?.invoke(
-            args
-        )
-        ?: listOf()
+    ): Any
+    {
+        val result = mappings[method]
+            ?.invoke(
+                args
+            )
+            ?: listOf()
+
+        if (method.returnType.name == "String")
+        {
+            return result.firstOrNull() ?: method.name
+        }
+
+        return result
+    }
 }
