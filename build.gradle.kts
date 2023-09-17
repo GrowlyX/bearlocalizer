@@ -32,7 +32,7 @@ kotlin {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.javaParameters = true
-    kotlinOptions.jvmTarget = "8"
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 tasks.withType<ShadowJar> {
