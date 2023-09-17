@@ -129,7 +129,7 @@ class LocalizationGenerator(
             )
             ?: listOf()
 
-        if (method.returnType.name == "String")
+        if (method.returnType.simpleName == "String")
         {
             return result.firstOrNull() ?: method.name
         }
