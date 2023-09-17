@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.10"
 }
 
 group = "io.liftgate.localize"
@@ -26,9 +26,13 @@ tasks.test {
     useJUnitPlatform()
 }
 
+kotlin {
+    jvmToolchain(jdkVersion = 8)
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.javaParameters = true
-    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.jvmTarget = "8"
 }
 
 tasks.withType<ShadowJar> {
