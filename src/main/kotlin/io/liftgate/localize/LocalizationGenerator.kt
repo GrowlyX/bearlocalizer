@@ -1,7 +1,6 @@
 package io.liftgate.localize
 
 import io.liftgate.localize.annotate.*
-import io.liftgate.localize.identity.Identity
 import io.liftgate.localize.placeholder.PlaceholderService
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
@@ -94,7 +93,7 @@ class LocalizationGenerator(
                     }
 
                     val selfIdentity = if (descriptor.identityIndex != -1)
-                        args[descriptor.identityIndex] as Identity else null
+                        args[descriptor.identityIndex] else null
 
                     template
                         .map { message ->

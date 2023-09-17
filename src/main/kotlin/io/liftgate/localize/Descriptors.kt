@@ -1,7 +1,6 @@
 package io.liftgate.localize
 
 import io.liftgate.localize.annotate.Self
-import io.liftgate.localize.identity.Identity
 import java.lang.reflect.Parameter
 
 /**
@@ -16,8 +15,7 @@ data class MethodDescriptor(
     val replacements: List<ParameterDescriptor>,
     val identityIndex: Int = replacements
         .indexOfFirst {
-            it.parameter.type == Identity::class.java &&
-                it.parameter.isAnnotationPresent(Self::class.java)
+            it.parameter.isAnnotationPresent(Self::class.java)
         }
 )
 

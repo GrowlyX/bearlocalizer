@@ -1,6 +1,5 @@
 package io.liftgate.localize
 
-import io.liftgate.localize.identity.Identity
 import kotlin.reflect.KClass
 
 /**
@@ -9,16 +8,10 @@ import kotlin.reflect.KClass
  */
 object MappingRegistry
 {
-    const val defaultLabel = "__default__"
+    const val DEFAULT_LABEL = "__default__"
+
     val components = mutableMapOf<KClass<*>, MutableList<ComponentMapping>>()
     val defaultMappings = mutableMapOf<KClass<*>, ComponentMapping>()
-
-    internal fun registerDefaultMappings()
-    {
-        registerDefaultComponent<Identity>(Identity::username)
-        registerComponent<Identity>("username", Identity::username)
-        registerComponent<Identity>("uniqueId") { it.identifier().toString() }
-    }
 
     fun findComponentMatching(kClass: KClass<*>, id: String) =
         components[kClass]?.firstOrNull { it.id == id }
@@ -28,7 +21,7 @@ object MappingRegistry
     )
     {
         defaultMappings[T::class] = ComponentMapping(
-            id = defaultLabel,
+            id = DEFAULT_LABEL,
             mapToValue = {
                 lambda(it as T)
             }

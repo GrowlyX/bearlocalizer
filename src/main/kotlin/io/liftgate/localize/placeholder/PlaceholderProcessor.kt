@@ -1,17 +1,38 @@
 package io.liftgate.localize.placeholder
 
-import io.liftgate.localize.identity.Identity
-
 /**
  * @author GrowlyX
  * @since 7/26/2023
  */
 interface PlaceholderProcessor
 {
-    fun transform(identity: Identity?, message: String): String
-
-    fun register()
+    companion object
     {
-        PlaceholderService.register(this)
+        @JvmStatic
+        fun <T> build(
+            type: Class<T>,
+            transformFunc: (T, String) -> String
+        ): PlaceholderProcessor
+        {
+            return object : PlaceholderProcessor
+            {
+                override fun transform(identity: Any?, message: String): String
+                {
+                    if (identity == null)
+                    {
+                        return message
+                    }
+
+                    if (identity.javaClass != type)
+                    {
+                        return message
+                    }
+
+                    return transformFunc(identity as T, message)
+                }
+            }
+        }
     }
+
+    fun transform(identity: Any?, message: String): String
 }

@@ -1,7 +1,8 @@
 package io.liftgate.localize
 
-import io.liftgate.localize.identity.IdentityImpl
+import io.liftgate.localize.placeholder.NoOpPlaceholderProcessor
 import io.liftgate.localize.placeholder.PlaceholderProcessor
+import io.liftgate.localize.placeholder.PlaceholderService
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Proxy
 import kotlin.reflect.KClass
@@ -61,15 +62,13 @@ object Localizer
             invocationHandler
         )
 
+    @JvmOverloads
     fun configure(
-        identityImpl: IdentityImpl,
-        placeholderProcessor: PlaceholderProcessor,
+        placeholderProcessor: PlaceholderProcessor = NoOpPlaceholderProcessor,
         bucketBuilder: (KClass<*>) -> ResourceBucket
     )
     {
-        MappingRegistry.registerDefaultMappings()
-        identityImpl.register()
-        placeholderProcessor.register()
+        PlaceholderService.register(placeholderProcessor)
 
         this.bucketBuilder = bucketBuilder
     }

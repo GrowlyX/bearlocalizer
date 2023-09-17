@@ -14,7 +14,9 @@ import kotlin.reflect.KClass
  * @author GrowlyX
  * @since 7/26/2023
  */
-class YamlResourceBucket(
+class YamlResourceBucket
+@JvmOverloads
+constructor(
     private val type: KClass<*>,
     private val file: File = File("${
         LocalizerInternals.generateFileName(type)
