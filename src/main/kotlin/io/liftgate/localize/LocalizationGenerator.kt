@@ -120,12 +120,12 @@ class LocalizationGenerator(
     override fun invoke(
         proxy: Any,
         method: Method,
-        args: Array<out Any>
+        args: Array<out Any>?
     ): Any
     {
         val result = mappings[method]
             ?.invoke(
-                args
+                args ?: arrayOf()
             )
             ?: listOf()
 
