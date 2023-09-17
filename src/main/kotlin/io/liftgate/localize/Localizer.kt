@@ -19,14 +19,15 @@ object Localizer
     @JvmOverloads
     inline fun <reified T : Any> of(
         noinline builder: (KClass<*>) -> ResourceBucket = bucketBuilder
-    ) = of(T::class, builder)
+    ) = of(T::class.java, builder)
 
     @JvmOverloads
     fun <T : Any> of(
-        kClass: KClass<T>,
+        _class: Class<T>,
         builder: (KClass<*>) -> ResourceBucket = bucketBuilder
     ): T
     {
+        val kClass = _class.kotlin
         if (registry[kClass] != null)
         {
             return registry[kClass] as T
@@ -59,8 +60,7 @@ object Localizer
         .newProxyInstance(
             clazz.java.classLoader,
             arrayOf(clazz.java),
-            invocationHandler
-        )
+            invocationHandler)
 
     @JvmOverloads
     fun configure(
